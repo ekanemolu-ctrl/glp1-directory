@@ -1,22 +1,76 @@
 import streamlit as st
 import pandas as pd
 
-# --- APP CONFIGURATION & STYLING ---
+# --- APP CONFIGURATION & THEME STYLING ---
 st.set_page_config(
     page_title="GLP Life Miami - The Daily Oral Lifestyle Directory",
-    page_icon="🌴",
+    page_icon="🧬", # Updated to a DNA helix representing clinical biology and molecular health
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Custom mobile-first layout styling injection
+# Custom mobile CSS injection to completely override standard Streamlit branding
 st.markdown("""
     <style>
-    .main .block-container { max-width: 550px; padding-top: 2rem; padding-bottom: 2rem; }
-    h1 { font-size: 2.5rem !important; font-weight: 800 !important; color: #111827; margin-bottom: 0.25rem; }
-    h2 { font-size: 1.5rem !important; font-weight: 700 !important; }
-    h3 { font-size: 1.2rem !important; font-weight: 700 !important; color: #1F2937; margin-top: 1rem; }
-    .stSelectbox, .stTextInput { margin-bottom: 1rem; }
+    /* Main Background & Text Color */
+    .stApp {
+        background-color: #FBFBF9 !important;
+        color: #1A3020 !important;
+    }
+    
+    /* Document Container Max-Width for Mobile Screens */
+    .main .block-container { 
+        max-width: 520px; 
+        padding-top: 2rem; 
+        padding-bottom: 2rem; 
+    }
+    
+    /* Custom Luxury Typography Hierarchy */
+    h1 { 
+        font-family: 'Playfair Display', serif !important;
+        font-size: 2.6rem !important; 
+        font-weight: 800 !important; 
+        color: #0F291B !important; 
+        margin-bottom: 0.1rem; 
+    }
+    h3 { 
+        font-size: 1.3rem !important; 
+        font-weight: 700 !important; 
+        color: #0F291B !important; 
+        margin-top: 1.5rem; 
+    }
+    
+    /* Custom Content Card Blocks */
+    .glp-card {
+        background-color: #FFFFFF !important;
+        border: 1px solid #EAEAE4 !important;
+        border-radius: 16px !important;
+        padding: 1.25rem !important;
+        margin-bottom: 1.25rem !important;
+        box-shadow: 0 4px 12px rgba(15, 41, 27, 0.02) !important;
+    }
+    
+    /* Styled Community Custom Info Box */
+    .stAlert {
+        background-color: #F1F4F1 !important;
+        color: #1A3020 !important;
+        border-left: 4px solid #2D5A27 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Styling Buttons to Premium Brand Green */
+    .stButton>button {
+        background-color: #0F291B !important;
+        color: #FFFFFF !important;
+        border-radius: 30px !important;
+        border: none !important;
+        padding: 0.5rem 2rem !important;
+        width: 100% !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Clean Divider Line */
+    hr { border-top: 1px solid #EAEAE4 !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -54,11 +108,11 @@ if 'directory_data' not in st.session_state:
     ])
 
 # --- HEADER HERO SECTION ---
-st.title("🌴 GLP Life")
-st.markdown("**The Daily Oral Lifestyle Directory**")
+st.title("🧬 GLP Life") # Replaced the tropical palm with a biological DNA helix anchor
+st.markdown("<p style='font-size:1.1rem; font-weight:600; color:#2D5A27; margin:0;'>The Daily Oral Lifestyle Directory</p>", unsafe_allow_html=True)
 st.caption("Navigate Miami's premier dining and wellness landscape on your daily oral protocol. Discover local stomach-safe menus, morning post-fast routines, and verified skin clinics.")
 
-st.markdown("---")
+st.markdown("<hr>", unsafe_allow_html=True)
 
 # --- FILTERING INTERFACE ---
 st.markdown("### 🔍 Find Local Safe Spots")
@@ -87,28 +141,31 @@ if neighborhood_search:
 
 # --- DISPLAY RESULTS ---
 st.markdown(f"**Showing {len(filtered_df)} Verified Miami Locations**")
-st.markdown("---")
+st.markdown("<hr>", unsafe_allow_html=True)
 
 if filtered_df.empty:
     st.info("No matching Miami locations found. Try adjusting your filters or submit a new spot below!")
 else:
     for idx, row in filtered_df.iterrows():
-        with st.container():
-            st.markdown(f"### {row['Name']}")
-            
-            # Metadata row with crisp formatting
-            st.markdown(f"📍 **Area:** {row['Neighborhood']} | 🏷️ `{row['Protocol_Match']}`")
-            
-            # Gastric Peace score colored visual block
-            gpi_val = float(row['Gastric_Peace_Index'])
-            status_icon = "🏆" if gpi_val >= 4.7 else "🟢"
-            st.markdown(f"{status_icon} **Stomach Safety Score:** `{gpi_val} / 5.0` *(Low Reflux Alert)*")
-            
-            # Highlighted hack layout box
-            st.info(f"**Community Menu Hack:**\n{row['Menu_Hack']}")
-            st.markdown("---")
+        gpi_val = float(row['Gastric_Peace_Index'])
+        status_icon = "🏆" if gpi_val >= 4.7 else "🟢"
+        
+        card_html = f"""
+        <div class="glp-card">
+            <h3 style="margin:0 0 0.25rem 0; color:#0F291B;">{row['Name']}</h3>
+            <p style="font-size:0.85rem; margin:0 0 0.5rem 0; color:#5A6B5D;">
+                📍 <b>Area:</b> {row['Neighborhood']} | 🏷️ <i>{row['Protocol_Match']}</i>
+            </p>
+            <p style="font-size:0.9rem; margin:0 0 0.5rem 0; color:#0F291B;">
+                {status_icon} <b>Stomach Safety Score:</b> <code>{gpi_val} / 5.0</code>
+            </p>
+        </div>
+        """
+        st.markdown(card_html, unsafe_allow_html=True)
+        st.info(f"**Community Menu Hack:**\n{row['Menu_Hack']}")
 
 # --- CROWDSOURCED COMMUNITY SUBMISSION FORM ---
+st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("### ➕ Add a Miami Hack or Clinic")
 st.caption("Help the GLP Life community map out safe spaces by submitting your favorite restaurant hack anonymously.")
 
