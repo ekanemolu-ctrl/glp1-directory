@@ -4,18 +4,18 @@ import pandas as pd
 # --- APP CONFIGURATION & THEME STYLING ---
 st.set_page_config(
     page_title="GLP Life Miami - The Daily Oral Lifestyle Directory",
-    page_icon="🧬", # Updated to a DNA helix representing clinical biology and molecular health
+    page_icon="🧬", 
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Custom mobile CSS injection to completely override standard Streamlit branding
+# Custom mobile CSS injection to build a Sleek Dark Mode (Modern Bio-Hacker) interface
 st.markdown("""
     <style>
-    /* Main Background & Text Color */
+    /* Main Background & Text Color - Deep Charcoal / Slate */
     .stApp {
-        background-color: #FBFBF9 !important;
-        color: #1A3020 !important;
+        background-color: #0B0F19 !important;
+        color: #E2E8F0 !important;
     }
     
     /* Document Container Max-Width for Mobile Screens */
@@ -25,52 +25,69 @@ st.markdown("""
         padding-bottom: 2rem; 
     }
     
-    /* Custom Luxury Typography Hierarchy */
+    /* Typography Hierarchy with Neon Accents */
     h1 { 
-        font-family: 'Playfair Display', serif !important;
+        font-family: 'Inter', sans-serif !important;
         font-size: 2.6rem !important; 
         font-weight: 800 !important; 
-        color: #0F291B !important; 
+        color: #FFFFFF !important; 
         margin-bottom: 0.1rem; 
+        letter-spacing: -0.05em;
     }
     h3 { 
         font-size: 1.3rem !important; 
         font-weight: 700 !important; 
-        color: #0F291B !important; 
+        color: #00F5A0 !important; /* Electric Mint Accent */
         margin-top: 1.5rem; 
     }
     
-    /* Custom Content Card Blocks */
+    /* Custom Bio-Hacker Content Card Blocks */
     .glp-card {
-        background-color: #FFFFFF !important;
-        border: 1px solid #EAEAE4 !important;
+        background-color: #161F30 !important;
+        border: 1px solid #24334D !important;
         border-radius: 16px !important;
         padding: 1.25rem !important;
         margin-bottom: 1.25rem !important;
-        box-shadow: 0 4px 12px rgba(15, 41, 27, 0.02) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
     }
     
     /* Styled Community Custom Info Box */
     .stAlert {
-        background-color: #F1F4F1 !important;
-        color: #1A3020 !important;
-        border-left: 4px solid #2D5A27 !important;
+        background-color: #1E293B !important;
+        color: #F8FAFC !important;
+        border-left: 4px solid #00F5A0 !important;
         border-radius: 8px !important;
     }
     
-    /* Styling Buttons to Premium Brand Green */
+    /* Styling Buttons to Neon Mint / Dark Text */
     .stButton>button {
-        background-color: #0F291B !important;
-        color: #FFFFFF !important;
+        background-color: #00F5A0 !important;
+        color: #0B0F19 !important;
         border-radius: 30px !important;
         border: none !important;
         padding: 0.5rem 2rem !important;
         width: 100% !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.05em;
     }
     
-    /* Clean Divider Line */
-    hr { border-top: 1px solid #EAEAE4 !important; }
+    /* Customize Input Fields for Dark Mode Harmony */
+    input, select, textarea {
+        background-color: #161F30 !important;
+        color: #FFFFFF !important;
+        border: 1px solid #24334D !important;
+    }
+    
+    /* Clean Dark Divider Line */
+    hr { border-top: 1px solid #24334D !important; }
+    
+    /* Custom code block coloring inside cards */
+    code {
+        background-color: #0B0F19 !important;
+        color: #00F5A0 !important;
+        padding: 0.2rem 0.4rem !important;
+        border-radius: 4px !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -108,8 +125,8 @@ if 'directory_data' not in st.session_state:
     ])
 
 # --- HEADER HERO SECTION ---
-st.title("🧬 GLP Life") # Replaced the tropical palm with a biological DNA helix anchor
-st.markdown("<p style='font-size:1.1rem; font-weight:600; color:#2D5A27; margin:0;'>The Daily Oral Lifestyle Directory</p>", unsafe_allow_html=True)
+st.title("🧬 GLP Life")
+st.markdown("<p style='font-size:1.1rem; font-weight:700; color:#00F5A0; margin:0; letter-spacing:0.05em;'>THE DAILY ORAL LIFESTYLE DIRECTORY</p>", unsafe_allow_html=True)
 st.caption("Navigate Miami's premier dining and wellness landscape on your daily oral protocol. Discover local stomach-safe menus, morning post-fast routines, and verified skin clinics.")
 
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -152,11 +169,11 @@ else:
         
         card_html = f"""
         <div class="glp-card">
-            <h3 style="margin:0 0 0.25rem 0; color:#0F291B;">{row['Name']}</h3>
-            <p style="font-size:0.85rem; margin:0 0 0.5rem 0; color:#5A6B5D;">
-                📍 <b>Area:</b> {row['Neighborhood']} | 🏷️ <i>{row['Protocol_Match']}</i>
+            <h3 style="margin:0 0 0.25rem 0; color:#FFFFFF;">{row['Name']}</h3>
+            <p style="font-size:0.85rem; margin:0 0 0.5rem 0; color:#94A3B8;">
+                📍 <b>Area:</b> {row['Neighborhood']} | <span style="color:#00F5A0;">🏷️ <i>{row['Protocol_Match']}</i></span>
             </p>
-            <p style="font-size:0.9rem; margin:0 0 0.5rem 0; color:#0F291B;">
+            <p style="font-size:0.9rem; margin:0; color:#E2E8F0;">
                 {status_icon} <b>Stomach Safety Score:</b> <code>{gpi_val} / 5.0</code>
             </p>
         </div>
